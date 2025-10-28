@@ -9,20 +9,15 @@
 
 namespace menu {
 
-/**
- * @brief Representation order of taste vector used across the program:
- *        [0] = sweet
- *        [1] = sour
- *        [2] = bitter
- *        [3] = salty
- *        [4] = savory
- *
- * All taste arrays follow this order for consistency with menu.json.
- */
+// Order of taste vector used across the program:
+// [0] = sweet
+// [1] = sour
+// [2] = bitter
+// [3] = salty
+// [4] = savory
+// All taste arrays follow this order for consistency with menu.json.
 
-/**
- * @brief Abstract base class representing a menu item.
- */
+// Base class representing a menu item.
 class MenuItem {
 private:
     std::string name;
@@ -30,16 +25,14 @@ private:
     std::array<double, 5> taste;
 
 public:
-    /**
-     * @brief Construct a MenuItem
-     */
+    // Constructor
     MenuItem(std::string name = "", double price = 0.0,
              std::array<double, 5> taste = {0, 0, 0, 0, 0});
 
-    /** Virtual destructor for safe polymorphic deletion */
+    // Virtual destructor for safe polymorphic deletion
     virtual ~MenuItem() = default;
 
-    /* Getters / setters */
+    // Getters / setters
     std::string getName() const;
     double getPrice() const;
     std::array<double, 5> getTaste() const;
@@ -48,14 +41,14 @@ public:
     void setPrice(double p);
     void setTaste(const std::array<double, 5>& t);
 
-    /** Print an info line for this item (polymorphic) */
+    // Print info for this item (polymorphic)
     virtual void printInfo() const = 0;
 
-    /** Convert to JSON for persistence (polymorphic) */
+    // Convert to JSON for persistence (polymorphic)
     virtual nlohmann::json toJson() const = 0;
 };
 
-/* Derived classes */
+// Derived classes
 class Starter : public MenuItem {
 private:
     bool isHot;
@@ -99,7 +92,7 @@ public:
 
 class Appetizer : public MenuItem {
 private:
-    std::string serveTime; ///< "before" or "after"
+    std::string serveTime; // "before" or "after"
 public:
     Appetizer(std::string name = "", double price = 0.0,
               std::array<double, 5> taste = {0,0,0,0,0}, std::string serveTime = "before");
@@ -117,12 +110,8 @@ public:
     nlohmann::json toJson() const override;
 };
 
-/**
- * @brief Menu container holding MenuItem pointers (ownership)
- *
- * Note: this class handles delete of contained raw pointers to keep
- * backward compatibility with your previous design.
- */
+// Menu container holding MenuItem pointers (ownership)
+// This class handles deletion of contained raw pointers.
 class Menu {
 private:
     std::vector<MenuItem*> items;
@@ -130,57 +119,55 @@ private:
 public:
     Menu() = default;
 
-    /** Add a new item (takes ownership of pointer) */
+    // Add a new item (takes ownership of pointer)
     void addItem(MenuItem* item);
 
-    /** Remove item by index; index validated */
+    // Remove item by index
     void removeItem(int index);
 
-    /** Print menu contents */
+    // Print menu contents
     void showMenu() const;
 
-    /** Return total cost (sum of item prices) */
+    // Return total cost (sum of item prices)
     double totalCost() const;
 
-    /** Number of items */
+    // Number of items
     int getItemCount() const;
 
-    /** Return taste vector for item index, or zero vector if invalid */
+    // Return taste vector for item index, or zero vector if invalid
     std::array<double,5> getItemTaste(int index) const;
 
-    /** Destructor cleans up owned MenuItem pointers */
+    // Destructor cleans up owned MenuItem pointers
     ~Menu();
 
-    /** Save / load menu contents to JSON file */
+    // Save / load menu contents to JSON file
     void saveToFile(const std::string& filename) const;
     void loadFromFile(const std::string& filename);
 };
 
-/**
- * @brief User info and their menu (composition)
- */
+// User info and their menu
 class User {
 private:
     std::string firstName;
     std::string lastName;
-    std::string gender; ///< "Mr" or "Mrs"
+    std::string gender; // "Mr" or "Mrs"
     Menu userMenu;
 
 public:
-    /** Interactively ask user info and normalize */
+    // Ask user info and normalize
     void setUserInfo();
 
-    /** Greet user */
+    // Greet user
     void showUserInfo() const;
 
-    /** Get reference to stored Menu */
+    // Get reference to stored Menu
     Menu& getMenu();
 
-    /** JSON helpers to persist user metadata only (not menu items) */
+    // JSON helpers to persist user metadata only (not menu items)
     nlohmann::json toJson() const;
     void fromJson(const nlohmann::json& j);
 
-    /* Minimal accessors needed by main.cpp for multi-user handling (non-invasive) */
+    // Accessors used by main.cpp for multi-user handling
     void setFirstName(const std::string &n);
     void setLastName(const std::string &n);
     void setGender(const std::string &g);

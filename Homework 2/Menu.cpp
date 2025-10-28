@@ -267,7 +267,7 @@ void User::fromJson(const json& j) {
     gender = j.value("gender", "");
 }
 
-/* --- Minimal accessors for multi-user handling --- */
+// --- Minimal accessors for multi-user handling ---
 void User::setFirstName(const std::string &n) {
     firstName = n;
 }

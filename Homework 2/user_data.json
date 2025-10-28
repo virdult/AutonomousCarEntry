@@ -1,0 +1,127 @@
+{
+    "users": {
+        "Derek Reacher": {
+            "menu": [
+                {
+                    "isHot": true,
+                    "name": "Bruschetta",
+                    "price": 8.0,
+                    "taste": [
+                        3.0,
+                        7.0,
+                        2.0,
+                        4.0,
+                        6.0
+                    ],
+                    "type": "Starter"
+                },
+                {
+                    "isVegetarian": true,
+                    "name": "Pesto Pasta",
+                    "price": 14.0,
+                    "taste": [
+                        2.0,
+                        1.0,
+                        1.0,
+                        4.0,
+                        7.0
+                    ],
+                    "type": "MainCourse"
+                },
+                {
+                    "name": "Loaded Potato Skins",
+                    "price": 9.0,
+                    "serveTime": "before",
+                    "taste": [
+                        1.0,
+                        2.0,
+                        3.0,
+                        6.0,
+                        8.0
+                    ],
+                    "type": "Appetizer"
+                },
+                {
+                    "extraChocolate": true,
+                    "name": "Chocolate Lava Cake",
+                    "price": 9.5,
+                    "taste": [
+                        9.0,
+                        1.0,
+                        2.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Dessert"
+                }
+            ],
+            "user": {
+                "firstName": "Derek",
+                "gender": "Mr",
+                "lastName": "Reacher"
+            }
+        },
+        "Jack Hills": {
+            "menu": [
+                {
+                    "isVegetarian": true,
+                    "name": "Beef Stroganoff",
+                    "price": 20.0,
+                    "taste": [
+                        1.0,
+                        2.0,
+                        2.0,
+                        6.0,
+                        9.0
+                    ],
+                    "type": "MainCourse"
+                },
+                {
+                    "isHot": true,
+                    "name": "Bruschetta",
+                    "price": 8.0,
+                    "taste": [
+                        3.0,
+                        7.0,
+                        2.0,
+                        4.0,
+                        6.0
+                    ],
+                    "type": "Starter"
+                },
+                {
+                    "hasAlcohol": true,
+                    "isCarbonated": false,
+                    "name": "Cucumber Mint Lemonade",
+                    "price": 7.5,
+                    "taste": [
+                        4.0,
+                        7.0,
+                        2.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Drink"
+                },
+                {
+                    "extraChocolate": true,
+                    "name": "Pecan Pie",
+                    "price": 10.5,
+                    "taste": [
+                        7.0,
+                        2.0,
+                        2.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Dessert"
+                }
+            ],
+            "user": {
+                "firstName": "Jack",
+                "gender": "Mr",
+                "lastName": "Hills"
+            }
+        }
+    }
+}

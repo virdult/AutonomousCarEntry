@@ -12,9 +12,7 @@ using json = nlohmann::json;
 
 /* ----------------- Helper IO ----------------- */
 
-/**
- * Safely prompt for an integer in [min, max].
- */
+// Safely prompt for an integer in [min, max].
 int getInt(const std::string &prompt, int min, int max) {
     int value;
     while (true) {
@@ -30,9 +28,7 @@ int getInt(const std::string &prompt, int min, int max) {
     }
 }
 
-/**
- * Prompt a yes/no question; returns true for y/Y.
- */
+// Prompt a yes/no question; returns true for y/Y.
 bool getYesNo(const std::string &prompt) {
     char c;
     while (true) {
@@ -46,9 +42,7 @@ bool getYesNo(const std::string &prompt) {
     }
 }
 
-/**
- * Safe getline (consumes leftover newline if present).
- */
+// Safe getline (consumes leftover newline if present).
 std::string safeGetline(const std::string &prompt) {
     std::string input;
     std::cout << prompt;
@@ -74,7 +68,7 @@ static std::array<double, 5> tasteFromJson(const json &tasteObj) {
     return taste;
 }
 
-/* small helper to capitalize a word (used to form the user key) */
+// Small helper to capitalize a word (used to form the user key)
 static std::string capitalizeLocal(const std::string &input) {
     if (input.empty()) return input;
     std::string s = input;

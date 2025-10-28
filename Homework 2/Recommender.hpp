@@ -10,16 +10,10 @@
 
 namespace ai {
 
-/**
- * @brief Simple linear regression recommender for menu taste -> predicted satisfaction.
- *
- * We use shape:
- *   y_hat = w0 + w1*x1 + ... + w5*x5
- * where xi corresponds to taste features in order:
- *   [sweet, sour, bitter, salty, savory]
- *
- * The implementation keeps output in 0..10 range (same scale as taste values).
- */
+// Simple linear regression recommender for menu taste -> predicted satisfaction.
+// Model: y_hat = w0 + w1*x1 + ... + w5*x5
+// Taste features: [sweet, sour, bitter, salty, savory]
+// Output is kept within 0..10 range.
 class Recommender {
 private:
     std::array<double, 6> weights; // w0..w5
@@ -33,11 +27,7 @@ public:
         }
     }
 
-    /**
-     * @brief Predict satisfaction for given taste vector.
-     * @param taste 5-dim taste vector [sweet, sour, bitter, salty, savory]
-     * @return predicted satisfaction in 0..10
-     */
+    // Predict satisfaction for a given taste vector.
     double predict(const std::array<double, 5> &taste) const {
         double y = weights[0];
         for (int i = 0; i < 5; ++i)
@@ -47,20 +37,16 @@ public:
         return y;
     }
 
-    /**
-     * @brief Update weights using single-step gradient (per assignment).
-     * @param taste feature vector
-     * @param actual user's actual satisfaction (0..10)
-     */
+    // Update weights using a single-step gradient.
     void update(const std::array<double, 5> &taste, double actual) {
         double predicted = predict(taste);
         double error = actual - predicted;
-        // bias update
-        weights[0] += learning_rate * error;
+        weights[0] += learning_rate * error; // bias
         for (int i = 0; i < 5; ++i)
             weights[i + 1] += learning_rate * error * taste[i];
     }
 
+    // Save current weights to a JSON file.
     void saveWeights(const std::string &filename = "weights.json") const {
         nlohmann::json j;
         j["weights"] = weights;
@@ -74,6 +60,7 @@ public:
         }
     }
 
+    // Load weights from a JSON file (if available).
     void loadWeights(const std::string &filename = "weights.json") {
         std::ifstream file(filename);
         if (!file.is_open()) {
@@ -91,6 +78,7 @@ public:
         }
     }
 
+    // Print current weight values.
     void showWeights() const {
         std::cout << "Current Weights:\n";
         for (int i = 0; i < 6; ++i)
