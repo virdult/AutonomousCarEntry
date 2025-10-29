@@ -404,29 +404,40 @@ int main() {
                 std::array<double,5> taste;
                 std::array<double,5> tasteWeights;
                 const char* tasteNames[5] = {"Sweet", "Sour", "Bitter", "Salty", "Savory"};
-                if(getYesNo("Do you want to give a taste preferance for suggestion?")){
+                // --- Load user's last taste if available ---
+                bool hasPrevTaste = false;
+                if (usersObj.contains(fullKey) && usersObj[fullKey].contains("last_taste")) {
+                    hasPrevTaste = true;
+                }
+
+                if (getYesNo("Do you want to give a taste preference for suggestion?")) {
                     for (int i = 0; i < 5; ++i) {
                         std::cout << "Rate your preference for " << tasteNames[i] << " (0–10): ";
                         std::cin >> taste[i];
                     }
                     for (int i = 0; i < 5; ++i) {
-                        std::cout << "How important is " << tasteNames[i] << " to you? (0-10, 10 = most important): ";
+                        std::cout << "How important is " << tasteNames[i] << " to you? (0–10, 10 = most important): ";
                         std::cin >> tasteWeights[i];
                     }
-                }else{
-                    // Get default from AI
-                    ai::Recommender recommender;
-                    recommender.loadWeights(); // load general average weights
 
-                    std::array<double,6> w = recommender.getWeights();
+                    // Save these to memory for later write-back
+                    usersObj[fullKey]["last_taste"] = taste;
+                    usersObj[fullKey]["last_weights"] = tasteWeights;
 
-                    // Use weights as default taste
+                } else if (hasPrevTaste) {
+                    std::cout << "Using your previous taste preferences.\n";
+                    auto lt = usersObj[fullKey]["last_taste"];
+                    auto lw = usersObj[fullKey]["last_weights"];
                     for (int i = 0; i < 5; ++i) {
-                        double val = w[i+1];       // weight i+1 corresponds to taste i
-                        if(val < 0) val = 0;
-                        if(val > 10) val = 10;
-                        taste[i] = val;
-                        tasteWeights[i] = 5; // keep importance neutral
+                        taste[i] = lt[i];
+                        tasteWeights[i] = lw[i];
+                    }
+
+                } else {
+                    std::cout << "No previous taste found. Using neutral defaults (5).\n";
+                    for (int i = 0; i < 5; ++i) {
+                        taste[i] = 5;
+                        tasteWeights[i] = 5;
                     }
                 }
 
@@ -582,6 +593,12 @@ int main() {
                 }
                 record["menu"] = menuItems;
 
+                // Also save latest taste preferences if they exist
+                if (usersObj[fullKey].contains("last_taste"))
+                    record["last_taste"] = usersObj[fullKey]["last_taste"];
+                if (usersObj[fullKey].contains("last_weights"))
+                    record["last_weights"] = usersObj[fullKey]["last_weights"];
+
                 // place into the users object under this user's fullKey
                 usersObj[fullKey] = record;
 
@@ -611,6 +628,13 @@ int main() {
                         std::remove("tmp_save_menu.json");
                     }
                     record["menu"] = menuItems;
+
+                    // Also save latest taste preferences if they exist
+                    if (usersObj[fullKey].contains("last_taste"))
+                        record["last_taste"] = usersObj[fullKey]["last_taste"];
+                    if (usersObj[fullKey].contains("last_weights"))
+                        record["last_weights"] = usersObj[fullKey]["last_weights"];
+
                     usersObj[fullKey] = record;
                     std::ofstream f("user_data.json");
                     f << allData.dump(4);

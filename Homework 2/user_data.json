@@ -1,9 +1,23 @@
 {
     "users": {
-        " A": {
+        "Jack Hills": {
+            "last_taste": [
+                2.0,
+                4.0,
+                7.0,
+                8.0,
+                6.0
+            ],
+            "last_weights": [
+                6.0,
+                6.0,
+                6.0,
+                6.0,
+                6.0
+            ],
             "menu": [
                 {
-                    "isHot": true,
+                    "isHot": false,
                     "name": "Chicken Wings",
                     "price": 12.0,
                     "taste": [
@@ -14,108 +28,38 @@
                         7.0
                     ],
                     "type": "Starter"
-                }
-            ],
-            "user": {
-                "firstName": "",
-                "gender": "Mrs",
-                "lastName": "A"
-            }
-        },
-        "Derek Reacher": {
-            "menu": [
-                {
-                    "isHot": true,
-                    "name": "Bruschetta",
-                    "price": 8.0,
-                    "taste": [
-                        3.0,
-                        7.0,
-                        2.0,
-                        4.0,
-                        6.0
-                    ],
-                    "type": "Starter"
                 },
                 {
-                    "isVegetarian": true,
-                    "name": "Pesto Pasta",
-                    "price": 14.0,
+                    "hasTopping": false,
+                    "name": "Caesar Salad",
+                    "price": 12.0,
                     "taste": [
+                        1.0,
                         2.0,
-                        1.0,
-                        1.0,
                         4.0,
+                        6.0,
                         7.0
                     ],
-                    "type": "MainCourse"
+                    "type": "Salad"
                 },
                 {
-                    "name": "Loaded Potato Skins",
-                    "price": 9.0,
-                    "serveTime": "before",
+                    "isVegetarian": false,
+                    "name": "Grilled Salmon",
+                    "price": 18.0,
                     "taste": [
-                        1.0,
                         2.0,
                         3.0,
-                        6.0,
+                        1.0,
+                        7.0,
                         8.0
                     ],
-                    "type": "Appetizer"
-                },
-                {
-                    "extraChocolate": true,
-                    "name": "Chocolate Lava Cake",
-                    "price": 9.5,
-                    "taste": [
-                        9.0,
-                        1.0,
-                        2.0,
-                        1.0,
-                        1.0
-                    ],
-                    "type": "Dessert"
-                }
-            ],
-            "user": {
-                "firstName": "Derek",
-                "gender": "Mr",
-                "lastName": "Reacher"
-            }
-        },
-        "Jack Hills": {
-            "menu": [
-                {
-                    "isVegetarian": true,
-                    "name": "Beef Stroganoff",
-                    "price": 20.0,
-                    "taste": [
-                        1.0,
-                        2.0,
-                        2.0,
-                        6.0,
-                        9.0
-                    ],
                     "type": "MainCourse"
                 },
                 {
-                    "isHot": true,
-                    "name": "Bruschetta",
-                    "price": 8.0,
-                    "taste": [
-                        3.0,
-                        7.0,
-                        2.0,
-                        4.0,
-                        6.0
-                    ],
-                    "type": "Starter"
-                },
-                {
-                    "hasAlcohol": true,
+                    "hasAlcohol": false,
                     "isCarbonated": false,
                     "name": "Cucumber Mint Lemonade",
-                    "price": 7.5,
+                    "price": 5.0,
                     "taste": [
                         4.0,
                         7.0,
@@ -126,9 +70,9 @@
                     "type": "Drink"
                 },
                 {
-                    "extraChocolate": true,
-                    "name": "Pecan Pie",
-                    "price": 10.5,
+                    "extraChocolate": false,
+                    "name": "Red Velvet Cupcake",
+                    "price": 5.0,
                     "taste": [
                         7.0,
                         2.0,
@@ -137,6 +81,19 @@
                         1.0
                     ],
                     "type": "Dessert"
+                },
+                {
+                    "hasTopping": false,
+                    "name": "Caesar Salad",
+                    "price": 12.0,
+                    "taste": [
+                        1.0,
+                        2.0,
+                        4.0,
+                        6.0,
+                        7.0
+                    ],
+                    "type": "Salad"
                 }
             ],
             "user": {
@@ -162,14 +119,14 @@
                 },
                 {
                     "hasTopping": false,
-                    "name": "Asian Chicken Salad",
-                    "price": 14.0,
+                    "name": "Cobb Salad",
+                    "price": 13.0,
                     "taste": [
-                        3.0,
-                        5.0,
                         2.0,
                         4.0,
-                        7.0
+                        3.0,
+                        5.0,
+                        6.0
                     ],
                     "type": "Salad"
                 },
@@ -202,13 +159,13 @@
                 },
                 {
                     "extraChocolate": false,
-                    "name": "Tropical Fruit Sorbet",
-                    "price": 6.0,
+                    "name": "Cheesecake",
+                    "price": 12.0,
                     "taste": [
-                        9.0,
-                        4.0,
+                        8.0,
+                        3.0,
                         1.0,
-                        1.0,
+                        2.0,
                         1.0
                     ],
                     "type": "Dessert"
