@@ -1,3 +1,0 @@
-Right now, the weights and the AI is taking everyone as 1 user and trains it's taste with everyone's common.
-I don't know if I should implement it person by person.
-Maybe I can ask a person what they like, and then get different types of AI recommendations sfor each flavor type.
