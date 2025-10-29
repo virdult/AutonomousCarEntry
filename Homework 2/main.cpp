@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <nlohmann/json.hpp>
+#include <random>//For default menu advisor
 
 using json = nlohmann::json;
 
@@ -401,15 +402,32 @@ int main() {
 
                 // --- Get user taste profile ---
                 std::array<double,5> taste;
-                const char* tasteNames[5] = {"Sweet", "Sour", "Bitter", "Salty", "Savory"};
-                for (int i = 0; i < 5; ++i) {
-                    std::cout << "Rate your preference for " << tasteNames[i] << " (0–10): ";
-                    std::cin >> taste[i];
-                }
                 std::array<double,5> tasteWeights;
-                for (int i = 0; i < 5; ++i) {
-                    std::cout << "How important is " << tasteNames[i] << " to you? (0-10, 10 = most important): ";
-                    std::cin >> tasteWeights[i];
+                const char* tasteNames[5] = {"Sweet", "Sour", "Bitter", "Salty", "Savory"};
+                if(getYesNo("Do you want to give a taste preferance for suggestion?")){
+                    for (int i = 0; i < 5; ++i) {
+                        std::cout << "Rate your preference for " << tasteNames[i] << " (0–10): ";
+                        std::cin >> taste[i];
+                    }
+                    for (int i = 0; i < 5; ++i) {
+                        std::cout << "How important is " << tasteNames[i] << " to you? (0-10, 10 = most important): ";
+                        std::cin >> tasteWeights[i];
+                    }
+                }else{
+                    // Get default from AI
+                    ai::Recommender recommender;
+                    recommender.loadWeights(); // load general average weights
+
+                    std::array<double,6> w = recommender.getWeights();
+
+                    // Use weights as default taste
+                    for (int i = 0; i < 5; ++i) {
+                        double val = w[i+1];       // weight i+1 corresponds to taste i
+                        if(val < 0) val = 0;
+                        if(val > 10) val = 10;
+                        taste[i] = val;
+                        tasteWeights[i] = 5; // keep importance neutral
+                    }
                 }
 
                 std::vector<menu::MenuItem*> recommendedItems;

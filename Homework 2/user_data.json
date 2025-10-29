@@ -1,5 +1,27 @@
 {
     "users": {
+        " A": {
+            "menu": [
+                {
+                    "isHot": true,
+                    "name": "Chicken Wings",
+                    "price": 12.0,
+                    "taste": [
+                        2.0,
+                        3.0,
+                        1.0,
+                        8.0,
+                        7.0
+                    ],
+                    "type": "Starter"
+                }
+            ],
+            "user": {
+                "firstName": "",
+                "gender": "Mrs",
+                "lastName": "A"
+            }
+        },
         "Derek Reacher": {
             "menu": [
                 {

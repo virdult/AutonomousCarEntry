@@ -84,6 +84,10 @@ public:
         for (int i = 0; i < 6; ++i)
             std::cout << "w" << i << " = " << weights[i] << "\n";
     }
+
+    std::array<double,6> getWeights() const {
+        return weights;
+    }
 };
 
 } // namespace ai
