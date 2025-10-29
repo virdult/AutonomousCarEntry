@@ -137,7 +137,7 @@ int main() {
     // Create user and recommender
     menu::User user;
 
-    // --- NEW: Multi-user identification ---
+    // --- Multi-user identification ---
     std::string inputFirst = safeGetline("Enter your first name: ");
     std::string inputLast = safeGetline("Enter your surname: ");
     std::string firstCap = capitalizeLocal(inputFirst);
@@ -289,7 +289,7 @@ int main() {
 
                     auto* chosen = filtered[idx - 1];
 
-                    // === Preserve your original item-specific customization logic ===
+                    // === item-specific customization logic ===
                     if (auto s = dynamic_cast<menu::Starter*>(chosen)) {
                         bool hot = getYesNo("Serve hot?");
                         menu.addItem(new menu::Starter(s->getName(), s->getPrice(), s->getTaste(), hot));
@@ -322,7 +322,7 @@ int main() {
             }
 
             case 2: {
-                // Add custom item by prompting for type and fields (keeps original approach but consistent taste order)
+                // Add custom item by prompting for type and fields
                 std::cout << "\nCustom Item Types:\n1. Starter\n2. Salad\n3. Main Course\n4. Drink\n5. Appetizer\n6. Dessert\n0. Go Back";
                 int type = getInt("Type: ", 0, 6);
                 if(type == 0) break;
@@ -435,8 +435,6 @@ int main() {
                             }
                         }
                         if (bestItem) {
-                            //std::cout << "\nBest " << cat << ": " << bestItem->getName() 
-                            //          << " (" << bestItem->getPrice() << "$)\n";
                             bestItem->printInfo();
                             totalCost += bestItem->getPrice();
 
