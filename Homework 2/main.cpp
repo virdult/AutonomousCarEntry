@@ -240,61 +240,92 @@ int main() {
         std::cout << "1. Browse master menu and add item\n";
         std::cout << "2. Add custom item\n";
         std::cout << "3. Remove item from your menu\n";
-        std::cout << "4. Show your current menu\n";
-        std::cout << "5. Predict satisfaction (AI) for an item\n";
-        std::cout << "6. Save user data now\n";
-        std::cout << "7. Exit\n";
-        int choice = getInt("Choice: ", 1, 7);
+        std::cout << "4. Suggest me something\n";
+        std::cout << "5. Show your current menu\n";
+        std::cout << "6. Predict satisfaction (AI) for an item\n";
+        std::cout << "7. Save user data now\n";
+        std::cout << "8. Exit\n";
+        int choice = getInt("Choice: ", 1, 8);
 
         switch (choice) {
             case 1: {
-                // Show master menu with indices
                 if (master.empty()) {
-                    std::cout << "Master menu is empty (menu.json missing or invalid).\n";
-                    break;
+                std::cout << "Master menu is empty (menu.json missing or invalid).\n";
+                break;
+            }
+
+                while (true) {
+                    std::cout << "\nSelect menu category:\n";
+                    std::cout << "1. Starters\n";
+                    std::cout << "2. Salads\n";
+                    std::cout << "3. Main Courses\n";
+                    std::cout << "4. Drinks\n";
+                    std::cout << "5. Appetizers\n";
+                    std::cout << "6. Desserts\n";
+                    std::cout << "0. Go Back\n";
+
+                    int category = getInt("Enter your choice: ", 0, 6);
+                    if (category == 0) break; // go back to main menu
+
+                    std::string type;
+                    switch (category) {
+                        case 1: type = "Starter"; break;
+                        case 2: type = "Salad"; break;
+                        case 3: type = "MainCourse"; break;
+                        case 4: type = "Drink"; break;
+                        case 5: type = "Appetizer"; break;
+                        case 6: type = "Dessert"; break;
+                    }
+
+                    // Filter and show items of that category
+                    std::vector<menu::MenuItem*> filtered = menu.showMenuByType(master, type);
+                    if (filtered.empty()) {
+                        std::cout << "No items found in this category.\n";
+                        continue;
+                    }
+
+                    int idx = getInt("Enter number to add (0 to go back): ", 0, static_cast<int>(filtered.size()));
+                    if (idx == 0) continue; // go back to category selection
+
+                    auto* chosen = filtered[idx - 1];
+
+                    // === Preserve your original item-specific customization logic ===
+                    if (auto s = dynamic_cast<menu::Starter*>(chosen)) {
+                        bool hot = getYesNo("Serve hot?");
+                        menu.addItem(new menu::Starter(s->getName(), s->getPrice(), s->getTaste(), hot));
+                    } else if (auto s = dynamic_cast<menu::Salad*>(chosen)) {
+                        bool top = getYesNo("Add topping (+2.25)?");
+                        double price = s->getPrice() + (top ? 2.25 : 0.0);
+                        menu.addItem(new menu::Salad(s->getName(), price, s->getTaste(), top));
+                    } else if (auto m = dynamic_cast<menu::MainCourse*>(chosen)) {
+                        bool veg = getYesNo("Vegetarian?");
+                        menu.addItem(new menu::MainCourse(m->getName(), m->getPrice(), m->getTaste(), veg));
+                    } else if (auto d = dynamic_cast<menu::Drink*>(chosen)) {
+                        bool carb = getYesNo("Carbonated? (+0.5)");
+                        bool alc = getYesNo("Alcohol shot? (+2.5)");
+                        double price = d->getPrice() + (carb ? 0.5 : 0.0) + (alc ? 2.5 : 0.0);
+                        menu.addItem(new menu::Drink(d->getName(), price, d->getTaste(), carb, alc));
+                    } else if (auto a = dynamic_cast<menu::Appetizer*>(chosen)) {
+                        std::string when = safeGetline("Serve time (before/after): ");
+                        if (when.empty()) when = "before";
+                        menu.addItem(new menu::Appetizer(a->getName(), a->getPrice(), a->getTaste(), when));
+                    } else if (auto ds = dynamic_cast<menu::Dessert*>(chosen)) {
+                        bool choc = getYesNo("Add extra chocolate? (+1.5)");
+                        double price = ds->getPrice() + (choc ? 1.5 : 0.0);
+                        menu.addItem(new menu::Dessert(ds->getName(), price, ds->getTaste(), choc));
+                    }
+
+                    std::cout << "Item added to your menu.\n";
                 }
-                std::cout << "\nMaster Menu (pick by number):\n";
-                for (size_t i = 0; i < master.size(); ++i) {
-                    std::cout << i + 1 << ". ";
-                    master[i]->printInfo();
-                }
-                int idx = getInt("Enter number to add to your menu (0 to cancel): ", 0, static_cast<int>(master.size()));
-                if (idx == 0) break;
-                // Clone the chosen item into user's menu (preserve base data but default extras)
-                auto* chosen = master[idx - 1];
-                // Create a copy by using runtime type name checks (via dynamic_cast)
-                if (auto s = dynamic_cast<menu::Starter*>(chosen)) {
-                    bool hot = getYesNo("Serve hot?");
-                    menu.addItem(new menu::Starter(s->getName(), s->getPrice(), s->getTaste(), hot));
-                } else if (auto s = dynamic_cast<menu::Salad*>(chosen)) {
-                    bool top = getYesNo("Add topping (+2.25)?");
-                    double price = s->getPrice() + (top ? 2.25 : 0.0);
-                    menu.addItem(new menu::Salad(s->getName(), price, s->getTaste(), top));
-                } else if (auto m = dynamic_cast<menu::MainCourse*>(chosen)) {
-                    bool veg = getYesNo("Vegetarian?");
-                    menu.addItem(new menu::MainCourse(m->getName(), m->getPrice(), m->getTaste(), veg));
-                } else if (auto d = dynamic_cast<menu::Drink*>(chosen)) {
-                    bool carb = getYesNo("Carbonated? (+0.5)");
-                    bool alc = getYesNo("Alcohol shot? (+2.5)");
-                    double price = d->getPrice() + (carb ? 0.5 : 0.0) + (alc ? 2.5 : 0.0);
-                    menu.addItem(new menu::Drink(d->getName(), price, d->getTaste(), carb, alc));
-                } else if (auto a = dynamic_cast<menu::Appetizer*>(chosen)) {
-                    std::string when = safeGetline("Serve time (before/after): ");
-                    if (when.empty()) when = "before";
-                    menu.addItem(new menu::Appetizer(a->getName(), a->getPrice(), a->getTaste(), when));
-                } else if (auto ds = dynamic_cast<menu::Dessert*>(chosen)) {
-                    bool choc = getYesNo("Add extra chocolate? (+1.5)");
-                    double price = ds->getPrice() + (choc ? 1.5 : 0.0);
-                    menu.addItem(new menu::Dessert(ds->getName(), price, ds->getTaste(), choc));
-                }
-                std::cout << "Item added to your menu.\n";
+
                 break;
             }
 
             case 2: {
                 // Add custom item by prompting for type and fields (keeps original approach but consistent taste order)
-                std::cout << "\nCustom Item Types:\n1. Starter\n2. Salad\n3. Main Course\n4. Drink\n5. Appetizer\n6. Dessert\n";
-                int type = getInt("Type: ", 1, 6);
+                std::cout << "\nCustom Item Types:\n1. Starter\n2. Salad\n3. Main Course\n4. Drink\n5. Appetizer\n6. Dessert\n0. Go Back";
+                int type = getInt("Type: ", 0, 6);
+                if(type == 0) break;
 
                 std::string name = safeGetline("Enter name: ");
                 double price;
@@ -360,11 +391,134 @@ int main() {
                 break;
             }
 
-            case 4:
+            case 4: {
+                std::cout << "Do you want:\n";
+                std::cout << "1. A full menu suggestion\n";
+                std::cout << "2. A specific type of food\n";
+                int sub;
+                std::cin >> sub;
+                double totalCost = 0;
+
+                // --- Get user taste profile ---
+                std::array<double,5> taste;
+                const char* tasteNames[5] = {"Sweet", "Sour", "Bitter", "Salty", "Savory"};
+                for (int i = 0; i < 5; ++i) {
+                    std::cout << "Rate your preference for " << tasteNames[i] << " (0–10): ";
+                    std::cin >> taste[i];
+                }
+                std::array<double,5> tasteWeights;
+                for (int i = 0; i < 5; ++i) {
+                    std::cout << "How important is " << tasteNames[i] << " to you? (0-10, 10 = most important): ";
+                    std::cin >> tasteWeights[i];
+                }
+
+                std::vector<menu::MenuItem*> recommendedItems;
+
+                if (sub == 1) {
+                    std::cout << "\n--- Full Menu Suggestion ---\n";
+                    std::vector<std::string> categories = {"starter", "salad", "main", "drink", "dessert"};
+                    for (const auto& cat : categories) {
+                        double bestDist = 1e9;
+                        menu::MenuItem* bestItem = nullptr;
+                        for (auto* item : master) {
+                            if ((cat == "starter" && dynamic_cast<menu::Starter*>(item)) ||
+                                (cat == "salad"   && dynamic_cast<menu::Salad*>(item)) ||
+                                (cat == "main"    && dynamic_cast<menu::MainCourse*>(item)) ||
+                                (cat == "drink"   && dynamic_cast<menu::Drink*>(item)) ||
+                                (cat == "dessert" && dynamic_cast<menu::Dessert*>(item))) {
+                                    
+                                double d = ai::tasteDistanceWeighted(item->getTaste(), taste, tasteWeights);
+                                if (d < bestDist) {
+                                    bestDist = d;
+                                    bestItem = item;
+                                }
+                            }
+                        }
+                        if (bestItem) {
+                            //std::cout << "\nBest " << cat << ": " << bestItem->getName() 
+                            //          << " (" << bestItem->getPrice() << "$)\n";
+                            bestItem->printInfo();
+                            totalCost += bestItem->getPrice();
+
+                            // Make a copy of the best item to add later if user accepts
+                            if (auto s = dynamic_cast<menu::Starter*>(bestItem))
+                                recommendedItems.push_back(new menu::Starter(*s));
+                            else if (auto s = dynamic_cast<menu::Salad*>(bestItem))
+                                recommendedItems.push_back(new menu::Salad(*s));
+                            else if (auto m = dynamic_cast<menu::MainCourse*>(bestItem))
+                                recommendedItems.push_back(new menu::MainCourse(*m));
+                            else if (auto d = dynamic_cast<menu::Drink*>(bestItem))
+                                recommendedItems.push_back(new menu::Drink(*d));
+                            else if (auto ds = dynamic_cast<menu::Dessert*>(bestItem))
+                                recommendedItems.push_back(new menu::Dessert(*ds));
+                        }
+                    }
+                    std::cout << "Total Cost of the menu: $" << totalCost << "\n";
+                }
+
+                else if (sub == 2) {
+                    std::cout << "Which type do you want? (starter/salad/main/drink/dessert): ";
+                    std::string type;
+                    std::cin >> type;
+                    double bestDist = 1e9;
+                    menu::MenuItem* bestItem = nullptr;
+
+                    for (auto* item : master) {
+                        if ((type == "starter" && dynamic_cast<menu::Starter*>(item)) ||
+                            (type == "salad"   && dynamic_cast<menu::Salad*>(item)) ||
+                            (type == "main"    && dynamic_cast<menu::MainCourse*>(item)) ||
+                            (type == "drink"   && dynamic_cast<menu::Drink*>(item)) ||
+                            (type == "dessert" && dynamic_cast<menu::Dessert*>(item))) {
+
+                            double d = ai::tasteDistanceWeighted(item->getTaste(), taste, tasteWeights);
+                            if (d < bestDist) {
+                                bestDist = d;
+                                bestItem = item;
+                            }
+                        }
+                    }
+
+                    if (bestItem) {
+                        std::cout << "\nClosest match:\n";
+                        bestItem->printInfo();
+
+                        // Make a copy for possible addition
+                        if (auto s = dynamic_cast<menu::Starter*>(bestItem))
+                            recommendedItems.push_back(new menu::Starter(*s));
+                        else if (auto s = dynamic_cast<menu::Salad*>(bestItem))
+                            recommendedItems.push_back(new menu::Salad(*s));
+                        else if (auto m = dynamic_cast<menu::MainCourse*>(bestItem))
+                            recommendedItems.push_back(new menu::MainCourse(*m));
+                        else if (auto d = dynamic_cast<menu::Drink*>(bestItem))
+                            recommendedItems.push_back(new menu::Drink(*d));
+                        else if (auto ds = dynamic_cast<menu::Dessert*>(bestItem))
+                            recommendedItems.push_back(new menu::Dessert(*ds));
+                    } else {
+                        std::cout << "No matching items found for type: " << type << "\n";
+                    }
+                }
+
+                // Confirmation and adding to user's menu
+                if (!recommendedItems.empty()) {
+                    if (getYesNo("\nDo you want to add these recommended dishes to your menu?")) {
+                        for (auto* item : recommendedItems)
+                            menu.addItem(item);  // Menu takes ownership
+                        std::cout << "Added to your menu!\n";
+                    } else {
+                        for (auto* item : recommendedItems)
+                            delete item; // clean up memory
+                        std::cout << "Okay, not adding them.\n";
+                    }
+                }
+                break;
+            }
+
+
+            case 5:
                 menu.showMenu();
                 break;
 
-            case 5: {
+            case 6: {
                 menu.showMenu();
                 if (menu.getItemCount() == 0) {
                     std::cout << "Add some items first!\n";
@@ -391,7 +545,7 @@ int main() {
                 break;
             }
 
-            case 6: {
+            case 7: {
                 // Save this user's data inside allData["users"][fullKey]
                 json record;
                 record["user"] = user.toJson();
@@ -423,7 +577,7 @@ int main() {
                 break;
             }
 
-            case 7: {
+            case 8: {
                 // On exit prompt to save
                 if (getYesNo("Do you want to save your user data before exiting?")) {
                     json record;

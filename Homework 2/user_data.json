@@ -122,6 +122,81 @@
                 "gender": "Mr",
                 "lastName": "Hills"
             }
+        },
+        "Jane Doe": {
+            "menu": [
+                {
+                    "isHot": false,
+                    "name": "Bruschetta",
+                    "price": 8.0,
+                    "taste": [
+                        3.0,
+                        7.0,
+                        2.0,
+                        4.0,
+                        6.0
+                    ],
+                    "type": "Starter"
+                },
+                {
+                    "hasTopping": false,
+                    "name": "Asian Chicken Salad",
+                    "price": 14.0,
+                    "taste": [
+                        3.0,
+                        5.0,
+                        2.0,
+                        4.0,
+                        7.0
+                    ],
+                    "type": "Salad"
+                },
+                {
+                    "isVegetarian": false,
+                    "name": "Vegetable Stir-Fry",
+                    "price": 16.0,
+                    "taste": [
+                        3.0,
+                        4.0,
+                        2.0,
+                        3.0,
+                        8.0
+                    ],
+                    "type": "MainCourse"
+                },
+                {
+                    "hasAlcohol": false,
+                    "isCarbonated": false,
+                    "name": "Cucumber Mint Lemonade",
+                    "price": 5.0,
+                    "taste": [
+                        4.0,
+                        7.0,
+                        2.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Drink"
+                },
+                {
+                    "extraChocolate": false,
+                    "name": "Tropical Fruit Sorbet",
+                    "price": 6.0,
+                    "taste": [
+                        9.0,
+                        4.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Dessert"
+                }
+            ],
+            "user": {
+                "firstName": "Jane",
+                "gender": "Mrs",
+                "lastName": "Doe"
+            }
         }
     }
 }

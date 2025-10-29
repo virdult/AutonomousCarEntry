@@ -3,6 +3,8 @@
 #include <limits>
 #include <algorithm>
 #include <cctype>
+#include <iomanip>
+#include <sstream>
 
 using nlohmann::json;
 
@@ -25,7 +27,7 @@ Starter::Starter(std::string name, double price, std::array<double, 5> taste, bo
     : MenuItem(std::move(name), price, taste), isHot(isHot) {}
 
 void Starter::printInfo() const {
-    std::cout << "Starter: " << getName() << " - $" << getPrice()
+    std::cout << std::left << std::setw(20) << "Starter: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice()
               << " (" << (isHot ? "Hot" : "Cold") << ")\n";
 }
 
@@ -38,7 +40,7 @@ Salad::Salad(std::string name, double price, std::array<double, 5> taste, bool h
     : MenuItem(std::move(name), price, taste), hasTopping(hasTopping) {}
 
 void Salad::printInfo() const {
-    std::cout << "Salad: " << getName() << " - $" << getPrice();
+    std::cout << std::left << std::setw(20) << "Salad: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice();
     if (hasTopping) std::cout << " (+Topping)";
     std::cout << "\n";
 }
@@ -52,7 +54,7 @@ MainCourse::MainCourse(std::string name, double price, std::array<double, 5> tas
     : MenuItem(std::move(name), price, taste), isVegetarian(isVegetarian) {}
 
 void MainCourse::printInfo() const {
-    std::cout << "Main Course: " << getName() << " - $" << getPrice()
+    std::cout << std::left << std::setw(20) << "Main Course: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice()
               << " (" << (isVegetarian ? "Vegetarian" : "Non-Vegetarian") << ")\n";
 }
 
@@ -66,7 +68,7 @@ Drink::Drink(std::string name, double price, std::array<double, 5> taste,
     : MenuItem(std::move(name), price, taste), isCarbonated(isCarbonated), hasAlcohol(hasAlcohol) {}
 
 void Drink::printInfo() const {
-    std::cout << "Drink: " << getName() << " - $" << getPrice() << " ("
+    std::cout << std::left << std::setw(20) << "Drink: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice() << " ("
               << (isCarbonated ? "Carbonated" : "Still");
     if (hasAlcohol) std::cout << ", Alcoholic";
     std::cout << ")\n";
@@ -81,7 +83,7 @@ Appetizer::Appetizer(std::string name, double price, std::array<double, 5> taste
     : MenuItem(std::move(name), price, taste), serveTime(std::move(serveTime)) {}
 
 void Appetizer::printInfo() const {
-    std::cout << "Appetizer: " << getName() << " - $" << getPrice()
+    std::cout << std::left << std::setw(20) << "Appetizer: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice()
               << " (Serve " << serveTime << " main course)\n";
 }
 
@@ -94,7 +96,7 @@ Dessert::Dessert(std::string name, double price, std::array<double, 5> taste, bo
     : MenuItem(std::move(name), price, taste), extraChocolate(extraChocolate) {}
 
 void Dessert::printInfo() const {
-    std::cout << "Dessert: " << getName() << " - $" << getPrice();
+    std::cout << std::left << std::setw(20) << "Dessert: " << std::setw(40) << getName() << " - $" << std::setw(5) << getPrice();
     if (extraChocolate) std::cout << " (+Extra Chocolate)";
     std::cout << "\n";
 }
@@ -124,13 +126,43 @@ void Menu::showMenu() const {
         std::cout << "\nYour menu is empty.\n";
         return;
     }
-    std::cout << "\nYour Menu:\n";
+    std::cout << "\n----- Your Menu -----\n";
     for (size_t i = 0; i < items.size(); ++i) {
-        std::cout << i + 1 << ". ";
+        std::cout << std::left << std::setw(4) << (std::to_string(i + 1) + ". ");
         items[i]->printInfo();
     }
-    std::cout << "----------------------\n";
+    std::cout << "--------------------" << "\n";
     std::cout << "Total Cost: $" << totalCost() << "\n";
+}
+
+std::vector<menu::MenuItem*> Menu::showMenuByType(const std::vector<menu::MenuItem*>& items, const std::string& type) {
+    std::cout << "\n--- " << type << " ---\n";
+    std::vector<menu::MenuItem*> filtered;
+    for (auto* item : items) {
+        bool match = false;
+        if (type == "Starter" && dynamic_cast<menu::Starter*>(item)) match = true;
+        else if (type == "Salad" && dynamic_cast<menu::Salad*>(item)) match = true;
+        else if (type == "MainCourse" && dynamic_cast<menu::MainCourse*>(item)) match = true;
+        else if (type == "Drink" && dynamic_cast<menu::Drink*>(item)) match = true;
+        else if (type == "Appetizer" && dynamic_cast<menu::Appetizer*>(item)) match = true;
+        else if (type == "Dessert" && dynamic_cast<menu::Dessert*>(item)) match = true;
+
+        if (match) {
+            filtered.push_back(item);
+        }
+    }
+
+    if (filtered.empty()) {
+        std::cout << "No items available in this category.\n";
+        return filtered;
+    }
+
+    for (size_t i = 0; i < filtered.size(); ++i) {
+        std::cout << i + 1 << ". ";
+        filtered[i]->printInfo();
+    }
+
+    return filtered;
 }
 
 double Menu::totalCost() const {

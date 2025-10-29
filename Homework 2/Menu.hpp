@@ -6,6 +6,7 @@
 #include <vector>
 #include <array>
 #include <nlohmann/json.hpp>
+#include <cmath>//For ai recommendation
 
 namespace menu {
 
@@ -128,6 +129,9 @@ public:
     // Print menu contents
     void showMenu() const;
 
+    // Print menu content for choosen type
+    std::vector<MenuItem*> showMenuByType(const std::vector<MenuItem*>& items, const std::string& type);
+
     // Return total cost (sum of item prices)
     double totalCost() const;
 
@@ -176,5 +180,19 @@ public:
 };
 
 } // namespace menu
+
+namespace ai {
+
+inline double tasteDistanceWeighted(const std::array<double,5>& a,
+                                 const std::array<double,5>& b,
+                                 const std::array<double,5>& weights) {
+    double sum = 0;
+    for (int i = 0; i < 5; ++i) {
+        double diff = a[i] - b[i];
+        sum += weights[i] * diff * diff;
+    }
+    return std::sqrt(sum);
+}
+}
 
 #endif // MENU_HPP
