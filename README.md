@@ -21,4 +21,6 @@ Brief descriptions and content for the weekly projects and assignments are liste
 
 > Each folder contains the code, launch files and a short report.
 
-### Author : Virdult
+## Contact
+- Name : Umut ŞENER
+- Mail : virdult@gmail.com
