@@ -36,6 +36,7 @@ RestaurantBot/
 ├── user_data.json
 ├── weights.json
 └── build/
+
 ---
 
 ## Dependencies
@@ -45,7 +46,6 @@ RestaurantBot/
 - nlohmann/json
 
 Install JSON on Ubuntu/Debian:
-```bash
 sudo apt install nlohmann-json3-dev
 
 ---
