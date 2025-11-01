@@ -102,6 +102,122 @@
                 "lastName": "Hills"
             }
         },
+        "Jack Reacher": {
+            "last_taste": [
+                1.0,
+                2.0,
+                5.0,
+                9.0,
+                6.0
+            ],
+            "last_weights": [
+                9.0,
+                5.0,
+                5.0,
+                5.0,
+                5.0
+            ],
+            "menu": [
+                {
+                    "isHot": true,
+                    "name": "Spinach and Artichoke Dip",
+                    "price": 10.0,
+                    "taste": [
+                        2.0,
+                        4.0,
+                        1.0,
+                        5.0,
+                        8.0
+                    ],
+                    "type": "Starter"
+                },
+                {
+                    "hasAlcohol": false,
+                    "isCarbonated": false,
+                    "name": "A",
+                    "price": 10.0,
+                    "taste": [
+                        2.0,
+                        2.0,
+                        2.0,
+                        2.0,
+                        2.0
+                    ],
+                    "type": "Drink"
+                },
+                {
+                    "isHot": false,
+                    "name": "Bruschetta",
+                    "price": 8.0,
+                    "taste": [
+                        3.0,
+                        7.0,
+                        2.0,
+                        4.0,
+                        6.0
+                    ],
+                    "type": "Starter"
+                },
+                {
+                    "hasTopping": false,
+                    "name": "Cobb Salad",
+                    "price": 13.0,
+                    "taste": [
+                        2.0,
+                        4.0,
+                        3.0,
+                        5.0,
+                        6.0
+                    ],
+                    "type": "Salad"
+                },
+                {
+                    "isVegetarian": false,
+                    "name": "Vegetable Stir-Fry",
+                    "price": 16.0,
+                    "taste": [
+                        3.0,
+                        4.0,
+                        2.0,
+                        3.0,
+                        8.0
+                    ],
+                    "type": "MainCourse"
+                },
+                {
+                    "hasAlcohol": false,
+                    "isCarbonated": false,
+                    "name": "Cucumber Mint Lemonade",
+                    "price": 5.0,
+                    "taste": [
+                        4.0,
+                        7.0,
+                        2.0,
+                        1.0,
+                        1.0
+                    ],
+                    "type": "Drink"
+                },
+                {
+                    "extraChocolate": false,
+                    "name": "Cheesecake",
+                    "price": 12.0,
+                    "taste": [
+                        8.0,
+                        3.0,
+                        1.0,
+                        2.0,
+                        1.0
+                    ],
+                    "type": "Dessert"
+                }
+            ],
+            "user": {
+                "firstName": "Jack",
+                "gender": "Mr",
+                "lastName": "Reacher"
+            }
+        },
         "Jane Doe": {
             "menu": [
                 {
