@@ -23,4 +23,4 @@ Brief descriptions and content for the weekly projects and assignments are liste
 
 ## Contact
 - Name : Umut ŞENER
-- Mail : virdult@gmail.com
+- Email : virdult@gmail.com
