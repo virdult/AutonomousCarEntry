@@ -34,6 +34,7 @@ RestaurantBot/
 ├── Recommender.hpp
 ├── menu.json
 ├── user_data.json
+├── weights.json
 └── build/
 
 ---
@@ -45,7 +46,6 @@ RestaurantBot/
 - nlohmann/json
 
 Install JSON on Ubuntu/Debian:
-```bash
 sudo apt install nlohmann-json3-dev
 
 ---
