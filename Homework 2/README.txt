@@ -34,8 +34,8 @@ RestaurantBot/
 ├── Recommender.hpp
 ├── menu.json
 ├── user_data.json
+├── weights.json
 └── build/
-
 ---
 
 ## Dependencies
